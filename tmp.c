@@ -3,6 +3,24 @@
 
 #define VARSIZE(var) ((char*)(&var+1) - (char*)(&var))      /*MTA: & operator returns a pointer to the variable. +1 takes you beyond the end of the variable. char* typecasting helps you count.*/
 
+/* Write a macro to read from a HW register */
+
+#define HWREG(addr) (*(volatile unsigned int*)(addr))
+
+#define REGADDR 0xAB230000
+
+/*
+//to load the value, declare variable v
+
+unsigned int v = HWREG(REGADDR);
+
+//To store to this hw reg
+
+HWREG(REGADDR) = value;
+*/
+
+/***********************************************************/
+
 /*Reverse a number*/
 
 int reversedigit(int num)
@@ -161,6 +179,21 @@ char* strrev (char* s, int size)
     return ans;
 }
 /**********************************************************************/
+
+/* Reverse a string w/o creating a new one*/
+
+void revstr (char* s, int len)
+{
+    char temp;
+    for (int i=0; i<len/2; i++)
+    {
+        temp = s[i];
+        s[i] = s[len-1-i];
+        s[len-1-i] = temp;
+    }
+}
+
+/*********************************************************************/
 
 /*Find first duplicate element in Array*/
 
