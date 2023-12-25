@@ -3,47 +3,54 @@
 
 #define VARSIZE(var) ((char*)(&var+1) - (char*)(&var))      /*MTA: & operator returns a pointer to the variable. +1 takes you beyond the end of the variable. char* typecasting helps you count.*/
 
-/* Write a macro to read from a HW register */
-
-#define HWREG(addr) (*(volatile unsigned int*)(addr))
+/* Write a macro to access a HW register given its address REGADDR*/
 
 #define REGADDR 0xAB230000
+#define HWREG(REGADDR) (*((volatile unsigned int*)REGADDR))     
 
 /*
-//to load the value, declare variable v
+// To load the value, define variable v and store the value in it
 
 unsigned int v = HWREG(REGADDR);
 
-//To store to this hw reg
+// To store to this HW Reg
 
 HWREG(REGADDR) = value;
+
+// To write 1 to kth bit of HW Reg
+
+HWREG(REGADDR) |= (1u << k);
+
+// To write 0 to kth bit of HW Reg
+
+HWREG(REGADDR) &= ~(1U << k);
 */
 
 /***********************************************************/
 
 /*Reverse a number*/
 
-int reversedigit(int num)
+int reversedigit(int num)                                       // num = 123
 {
-    int result = 0, count = 0;
+    int ans = 0;             // no need to keep count of # of digits
     int tmp = num;              //in case original num is needed 
-    while (num)
+    while (tmp)
     {
-        result = (result*10) + num%10;
-        num /= 10;
+        ans = (ans*10) + tmp%10;              // i=0 -> ans = 3   // i=1 -> ans = 30+2 = 32   //
+        tmp /= 10;                                  // i=0 -> tmp = 12  // i=1 -> tmp = 1           //
     }
-    return result;
+    return ans;
 }
 
 /*************************************************************/
 
 /* Check a num is prime or not */
 
-int isprime(int num)
+int isPrime(int num)
 {
     if (num%2 == 1)
     {
-        for(int i=2; i<num; i++)
+        for(int i=3; i<num; i=i+2)                      // changed i=2 to i=3 // changed i++ to i=i+2
         {
             if (num%i == 0)
             {
@@ -55,19 +62,22 @@ int isprime(int num)
     return 0;
 }
 
+/*
+(1 == isPrime(11)) ? printf ("prime") : printf ("not prime") ;
+*/
 /****************************************************************/
 
 /*Palindrome number*/
 
 int isPalindrome(int num)
 {
-    int rev = 0;
-    int num2 = num; //in case origl num is needed later
+    int rev = 0;                    // rev is a better name than ans
+    int num2 = num;                 //since origl num is needed later for comparison    // tmp is a better name than num2
     while (num2)
     {
         rev = (rev*10) + (num2%10);
         num2 /= 10;
-    }
+    }                              // here rev holds the reverse of num
     if (rev == num)
         return 1;
     else
@@ -80,7 +90,7 @@ int isPalindrome(int num)
 
 int isnumberPal (int n)
 {
-    int m = n;
+    int m = n;                  // poor choice of variable names
     int rev = 0;
     while (n > 0)
     {
@@ -127,6 +137,13 @@ int Fibon (int n)
         }
         return ans;
     }
+
+
+/*
+    int n;
+    n = Fibon(4);
+    printf("last term = %d", n);
+*/
 }
 
 /********************************************************************/
@@ -263,20 +280,23 @@ void bubsort (int* nums, int n)
 
 /* BitMnpl: check whether ith bit set or not */
 
-int isBitSet (char c)
+// #define MASK(i) (1U << i)                                           // works, obviously --> global regardless of local/global --> don't follow usual scope rules of C
+
+int isBitSet (int n, int i)
 {
-    //checking if bit i is set
-    //char mask
-    char mask = 0x10;
-    if(~(mask)^c)
-        return 1;
-    return 0;
+    #define MASK(i) (1U << i)                                         // prefer it here but makes no difference BCZ preprocessor directives are visible to all parts of the code
+    
+    // (1 == (MASK(i) & n)) ? return 1 : return 0 ;
+    // (1 == ((1U << i) & n)) ? return 1 : return 0 ;
+    // ((1U << i) & n) ? return 1 : return 0 ;                           // MTA: return to be used only once per C statement  --> error: "expected expression before return"
+
+    return (MASK(i) & n) ? 1 : 0 ;
 }
 /* *****************************************************************/
 
 /* BitMnpl: Check if number is power of 4*/
 
-//      Check if number is power of 2 AND mod 3 == 1
+//      Check if number is power of 2 AND mod 3 == 1                    // MTA: (any integer power of n ) % (n-1)     ALWAYS = 1
 
 int isPwrof4 (int num)
 {
@@ -368,8 +388,8 @@ int main()
     printf("%s ", result);
     */
 
-    int n;
-    n = Fibon(4);
-    printf("last term = %d", n);
+    isBitSet (8, 3) ? printf("set") : printf("not set") ;
+    
+    
     return 0;
 }
