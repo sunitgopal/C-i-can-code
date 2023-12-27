@@ -24,16 +24,20 @@ int areOppSigns(int x, int y){  // Returns 1 if Opp, 0 if Same
 /********** Add 1 to an integer ***************/
 
 // Use the fact that 2's complement of a number (how -number is stored) is (1+inv(number))
-// -x = ~x + 1;
+// -x = ~x + 1;         
 // -~x = 1+x
 
 int addOne(int x){              // Returns result
 
     int ans;                     
-    ans = -(~x);                
+    ans = -(~x);                // MTA: ~ operator is bitwise NOT   AKA     1s-complement
     return ans;
 }
 
+/*
+MTA:
+two's complement = ~number + 1
+*/
 /*****************************************************************************************************/
 
 /******** Swap two numbers w/o third variable **********/
@@ -111,7 +115,7 @@ void togglekth(int* x, int k){
 /******* Unset the righmost-set bit ***************/
 
 // performing n & (n-1) unsets the rightmost-set-bit in n
-// (n-1) has all the bits AFTER the rightmost-set-bit flipped w.r.t n
+// (n-1) has all the bits AFTER (to the right of) the rightmost-set-bit flipped w.r.t n
 
 int unsetrightmostset (int x){         // Returns result
 

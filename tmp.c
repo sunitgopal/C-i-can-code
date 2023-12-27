@@ -120,8 +120,43 @@ int Fibonacci (int num)
 
 /* Fibonacci iteratively*/
 
-int Fibon (int n)
+int Fibon (int *ar, int count)
 {
+  
+    if (count == 0){
+        printf ("what is this joke\n");
+        return;
+    }
+    else if (count == 1){
+        ar[0] = 0;
+        return;
+    }
+    else if (count == 2){
+        ar[0] = 0;
+        ar[1] = 1;
+    }
+    else {
+        ar[0] = 0;
+        ar[1] = 1;
+        for (int i=2; i<count; i++){
+            ar[i] = ar[i-2] + ar[i-1];
+        }
+        return;
+    }
+
+    /*    
+    int *a; 
+    int c;
+    scanf ("%d", &c);
+    a = (int*) malloc (c * sizeof(int));
+    Fibonacci(a, c);
+    for (int i=0; i<c; i++){
+        printf("%d, ", a[i]);
+    }
+    free(a);
+    return 0;
+    */
+/*  
     int p = 0, q = 1, ans;
     if (n == 0)
         return 0;
@@ -137,7 +172,7 @@ int Fibon (int n)
         }
         return ans;
     }
-
+*/
 
 /*
     int n;
