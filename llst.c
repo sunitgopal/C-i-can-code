@@ -1,200 +1,214 @@
 #include <stdio.h>
-#include <stdlib.h> //malloc
+#include "llst.h"
 
-struct Node
-{
-    int data;
-    struct Node* link;
-};
+/* For visualization:  4 --> 10 --> 7 --> 5 --> 16 */
 
-struct Node* createll ();
-void printll (struct Node* h);
-void reversell (struct Node* h);
-void deletep (struct Node* h, int P);
-void insertp (struct Node*, int, int);
+int main(){
 
-int main()
-{
-    struct Node* head = NULL; //declared and initialized pointer to head node 
+    int hdata;
+    printf ("Enter desired head-node data\n");
+    scanf("%d", &hdata);
+
+    create (hdata);
+
+    append(9);
+    create (99);
     
-    //now, start inserting nodes to this ll 
-
+    insert(8, 0);
     
-    int p = 3;  //position to delete node
-    int newdata = 55;
-    struct Node* temp = NULL; //declared and initialized temp node pointer to add new nodes
+    prepend(7);
+
+    insert (11, 3);
     
-    head = createll();
-/*    
-    head = (struct Node*) malloc (sizeof(struct Node));     //allocated heap memory for head node
-    head->data = n;
-    head->link = NULL;
+    takeout(0);
+    append(7);
 
-    temp = (struct Node*) malloc (sizeof(struct Node));     //allocated heap memory for second node
-    temp->data = ++n;
-    temp->link = NULL;
-    head->link = temp;
-
-    temp = (struct Node*) malloc (sizeof(struct Node));     //allocated heap memory for third node
-    temp->data = ++n;
-    temp->link = NULL;
-    (head->link)->link = temp;
-
-    temp = (struct Node*) malloc (sizeof(struct Node));     //allocated heap memory for fourth node
-    temp->data = ++n;
-    temp->link = NULL;
-    ((head->link)->link)->link = temp;
-    
-*/
-
-    printll (head);
-
-    //free(temp);   //free function frees the heap location pointed to by its argument, essentially, no more of that piece of heap memory now available for use
-    //free(temp1);
-
-    /* created a 3 ele list so far*/
-    /* Now, reverse it and print it too*/
-
-    //reversell (head);
-
-    /* Now, delete pth node*/
-
-    deletep(head, p);
-    printll (head);
-
-    insertp (head, p, newdata);
-    printll (head);
-
-    return 0;    
+    return 0;
 }
 
-struct Node* createll()
-{
-    struct Node* h = NULL;
-    struct Node* temp = NULL;
-    int n = 3;  //for incrementing node data; first node starts with data = 3
-    
-    h = (struct Node*) malloc (sizeof(struct Node));
-    h->data = n;
-    h->link = NULL;
 
-    temp = (struct Node*) malloc (sizeof(struct Node));     //allocated heap memory for second node
-    temp->data = ++n;
-    temp->link = NULL;
-    h->link = temp;
+void create (int head_data){
 
-    temp = (struct Node*) malloc (sizeof(struct Node));     //allocated heap memory for third node
-    temp->data = ++n;
-    temp->link = NULL;
-    (h->link)->link = temp;
-
-    temp = (struct Node*) malloc (sizeof(struct Node));     //allocated heap memory for fourth node
-    temp->data = ++n;
-    temp->link = NULL;
-    ((h->link)->link)->link = temp;
-
-    return h;
-}
-
-void printll (struct Node* h)
-{
-    struct Node* temp = NULL;
-    for (temp = h; temp!=NULL; temp = temp->link)
-    {
-        printf("%d ", temp->data);
-    }
-    printf ("\n");
-}
-
-void reversell (struct Node* h)
-{
-    struct Node* prev = NULL;
-    struct Node* curr = NULL;
-    struct Node* next = NULL;
-    curr = h;
-    while (curr->link != NULL)
-    {
-        next = curr->link;
-        curr->link = prev;
-        prev = curr;
-        curr = next;
-
-/*      Debugging stmnts:
-        printf("prev points to %d\n", prev->data);
-        printf("curr points to %d\n", curr->data);
-        printf("next points to %d\n\n", next->data);    */
-    }
-    curr->link = prev;
-    h = curr;
-    printll (h);
-}
-
-void deletep (struct Node* h, int P)
-{
-    /*first check if there is a Pth node*/
-    struct Node* temp = NULL;
-    struct Node* prev = NULL;
-    struct Node* next = NULL;
-    int i;
-    for (temp = h, i = 0; temp != NULL; temp = temp->link)
-    {
-       i++;
-    }
-    printf("i = %d\n", i);
-    if (i < P)
-    {
-        printf("there is no pth node\n");
-    }
-    else
-    {
-        for (temp = h, i = 0; i < P; i++, temp = temp->link)
-        {
-            if (i == (P-1))
-            {
-                prev = temp;
-                break;
-            }
-        }
-        temp = temp->link;              //node to be deleted
-        next = temp->link;
-        prev->link = next;
-        free(temp);
-    }
-
-
-}
-
-void insertp (struct Node* h, int p, int nodedata)
-{
-    //check if there is a p-1th node at all
-
-    int count = 0;
-    struct Node* temp = NULL;
-    struct Node* newnode = NULL;
-
-    for (temp = h; temp != NULL; temp = temp->link)
-    {
-        count++;
-    }
-    printf("intermediateo/p count = %d\n", count);
-
-    if(count < (p-1))   //no p-1 th node at all
-    {
-        printf("ll has < p-1 nodes\n");
+    if (head != NULL){
+        printf ("List already exists. Consider using append(%d) or insert(%d) instead\n", head_data, head_data);
         return;
     }
-    else    //yes p-1 th node
-    {
-        newnode = (struct Node*) malloc (sizeof(struct Node));
-        newnode->data = nodedata;
-        newnode->link = NULL;
+    head = (NODE*) malloc (sizeof(NODE));
+    head->data = head_data;
+    head->ptr = NULL;
+    tail = head;
+    
+    print();
+    return;
+}
 
-        int i;
-        for (i = 1, temp = h; i<p-1; temp = temp->link, i++)
-        {
 
-        }
-        newnode->link = temp->link;
-        temp->link = newnode;
+void print (void){
+
+    NODE* iter = NULL;
+    iter = head;
+    if (iter == NULL){
+        printf ("Empty list. Nothing to print.\n");
+        return;
     }
-}   
+    while (iter->ptr != NULL){           // exits when temp points at Tail node
+
+        printf ("%d --> ", iter->data);
+        iter = iter->ptr;
+    }
+    printf ("%d \n", iter->data);         // BEAUTFCTN: to avoid printing an arrow after Tail node
+    return;
+} 
+
+
+void append (int NODE_data){
+/*
+    if (head == NULL){
+        printf("Empty list. Call create() first\n");
+        return;
+    }
+    NODE* temp = (NODE*) malloc (sizeof(NODE));
+    temp->data = NODE_data;
+    temp->ptr = NULL;
+    tail->ptr = temp;
+    tail = temp;
+    return;
+*/
+    
+    /* ITCO absence of Tail ptr */
+
+    if (head == NULL){
+        printf("Empty list. Call create() first\n");
+        return;
+    }
+    NODE* temp = (NODE*) malloc (sizeof(NODE));
+    temp->data = NODE_data;
+    temp->ptr = NULL;
+    
+    // Define iter NODE ptr to get to the end of LL
+    NODE* iter = head;
+    while (iter->ptr != NULL){             // exits when iter points to Tail node
+
+        iter = iter->ptr;
+    }
+    iter->ptr = temp;
+
+    print();
+    return;
+}
+
+
+void insert (int node_data, int pos){
+
+
+    if (0 == pos){                                          // to cover the case of pos == 0
+
+        printf("Consider using prepend(%d) instead, but sure\n", node_data);
+        prepend(node_data);
+
+        return;
+    }
+    
+    // else if                                              // MODIFYLATER to cover pos > Tail node pos
+
+    NODE* newnode = (NODE*) malloc (sizeof(NODE));
+    newnode->data = node_data;
+    newnode->ptr = NULL;                                    // to avoid indeterminacy
+    
+    NODE* temp = head;
+    int count = 0;
+
+    while((temp->ptr != NULL) && (count != (pos-1))){       //  Traverse till (pos-1)  
+        temp = temp->ptr;
+        count++;
+    }
+
+    if (count == (pos-1)){                                //  If reached the right index/pos   
+        newnode->ptr = temp->ptr;
+        temp->ptr = newnode;
+        print();
+
+        return;
+    }
+
+    else if (temp->ptr == NULL){                           //  If reached the end of the LL 
+        printf("No such index, thus appending \n");
+        append (node_data);
+        print();
+        
+        return;
+    }
+
+    
+}
+
+
+void prepend (int hNODE_data){
+
+    NODE* newnode = (NODE*) malloc (sizeof(NODE));
+    newnode->data = hNODE_data;
+    newnode->ptr = head;                   
+    head = newnode;
+
+    print();
+    return;
+}
+
+void takeout (int pos){
+
+    // if pos == 0 --> handle separately
+    // iter till pos-1
+    // iter->ptr = iter->ptr->ptr
+    // print taken out NODE data
+    // deallocate takenout NODE
+    // MODIFYLATER to cover pos == Tail NODE, as well as > Tail NODE
+
+    if (0 == pos){
+
+        NODE* temp = head; 
+        head = head->ptr;
+        printf ("Takenout NODE data = %d\n", temp->data);
+        free(temp);
+
+        print();
+        return;
+    }
+    NODE* iter = head;
+    int count = 0;
+    
+    NODE* temp = NULL;
+    while (count != (pos-1)){                  // exits when iter is at pos-1
+        
+        iter = iter->ptr;
+        count++;
+    }
+    temp = iter->ptr;
+    iter->ptr = temp->ptr;
+    printf ("Takenout NODE data = %d\n", temp->data);
+    free(temp);
+
+    print();
+    return;
+}
+
+
+void reverse (void){
+
+    NODE* iterp = NULL;
+    NODE* iter = NULL;
+    NODE* iterf = NULL;
+
+    iter = head;
+    while (iter->ptr != NULL){
+
+        iterf = iter->ptr;
+        iter->ptr = iterp;
+        iterp = iter;
+        iter = iterf;
+    }
+    head = iter;
+    head->ptr = iterp;
+
+    print();
+    return;
+}
