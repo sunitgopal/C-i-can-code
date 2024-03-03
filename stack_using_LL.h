@@ -1,7 +1,7 @@
 #ifndef STACK_USING_LL_H
 #define STACK_USING_LL_H
 
-#include "LL.h"
+#include "LL_shared.h"
 
 typedef NODE STACKITEM;
 

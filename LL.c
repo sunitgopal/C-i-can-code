@@ -1,4 +1,3 @@
-#include <stdio.h>      
 #include "LL.h"
 
 /* For visualization:  4 --> 10 --> 7 --> 5 --> 16 */

@@ -1,15 +1,8 @@
 #ifndef LL_H
 #define LL_H
 
-#include <stdlib.h> //malloc
-
-/* Declaring global struct of type Node, and alias NODE */
-typedef struct Node
-{
-    int data;
-    struct Node* ptr;
-} NODE;
-
+#include "LL_shared.h"
+#include <stdio.h>   
 
 /* Function Declarations */
 
