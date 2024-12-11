@@ -2,21 +2,14 @@
 
 int isOdd(unsigned int x){      // Returns 1 if Odd, 0 if even    // printf("%s", isOdd(a) ? "Odd" : "Even");
     
-    if(x & 1u){
-        return 1;
-    }
-    return 0;
+    return (x & 1u);
 }
 
 /*****************************************************************************************************/
 
 int areOppSigns(int x, int y){  // Returns 1 if Opp, 0 if Same
 
-
-    if ((x ^ y) < 0){              // Opp sign
-        return 1;
-    }
-    return 0;
+    return ((x ^ y) < 0);
 }
 
 /*****************************************************************************************************/
@@ -29,15 +22,9 @@ int areOppSigns(int x, int y){  // Returns 1 if Opp, 0 if Same
 
 int addOne(int x){              // Returns result
 
-    int ans;                     
-    ans = -(~x);                // MTA: ~ operator is bitwise NOT   AKA     1s-complement
-    return ans;
+    return (-(~x));
 }
 
-/*
-MTA:
-two's complement = ~number + 1
-*/
 /*****************************************************************************************************/
 
 /******** Swap two numbers w/o third variable **********/
@@ -45,7 +32,7 @@ two's complement = ~number + 1
 // x ^ x = 0
 // x ^ 0 = x
 
-void Swap(int * x, int * y){
+void Swap(int *x, int *y){
 
     *x = *x ^ *y;
     *y = *x ^ *y;
@@ -58,7 +45,7 @@ void Swap(int * x, int * y){
 
 /******* Turn off kth bit in a number ***************/
 
-// make a MACRO that takes in the position k, and makes a MASK for that position
+// make a MACRO that takes in the position k, and makes a Mask for that position
 
 #define MASK(k) (1u << (k))
 
@@ -74,10 +61,8 @@ int kthOff (int x, int k){
 
 /******* Turn on kth bit in a number ***************/
 
-//#ifndef MASK(k)                   // ifndef doesn't work on MACROFUNCTION ?
+//#ifndef MASK
 //#define MASK(k) (1u << k)
-
-//#endif
 
 // using the same MACROFUNCTION created above
 
@@ -87,6 +72,7 @@ void kthOn (int* x, int k){
 
     return; 
 }
+//#endif
 
 /*****************************************************************************************************/
 
@@ -132,8 +118,6 @@ int unsetrightmostset (int x){         // Returns result
 
 int ispwroftwo (int x){                 // Returns 1 if true, 0 false
     
-    //(x & (x-1)) ? return (0) : return (1);        //error: expected expression before return
-
     if(x&(x-1))
         return 0;
     else
@@ -149,9 +133,8 @@ int ispwroftwo (int x){                 // Returns 1 if true, 0 false
 
 int rmostsetpos (int x){
 
-    int y = x;
-    int pos = -1;                       // BCZ I want rmost-bit as pos = 0
-    x &= x-1;
+    int y = x & (x-1);
+    int pos = -1;                       // LSB as pos = 0
     y ^= x;
 
     while(y){
@@ -197,10 +180,7 @@ int countsetbits (int x){
 
 unsigned int swEndn (unsigned int x){        // 0x 1234abcd ---> 0x cdab3412
 
-    x = (x >> 16) | (x << 16);      // 0x abcd1234
-    x = ((x & (0xff00ff00)) >> 8) | ((x & (0x00ff00ff)) << 8);
-
-    return x;
+    return (((x >> 24)&(0x000000ff)) | ((x >> 8)&(0x0000ff00)) | ((x << 8)&(0x00ff0000)) | ((x << 24)&(0xff000000)));
 }
 
 /*****************************************************************************************************/
