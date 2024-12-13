@@ -74,7 +74,8 @@ int isPrime(int num)
 int isPalindrome(int num)
 {
     int rev = 0;                    // rev is a better name than ans
-    int num2 = num;                 //since origl num is needed later for comparison    // tmp is a better name than num2
+    int num2 = num;                 //since origl num is needed later for comparison
+    /* Reconstruct rev to be a reverse of num  */
     while (num2)
     {
         rev = (rev*10) + (num2%10);
@@ -88,25 +89,7 @@ int isPalindrome(int num)
 
 /*****************************************************************/
 
-/* reattempt: Palindrome number*/
-
-int isnumberPal (int n)
-{
-    int m = n;                  // poor choice of variable names
-    int rev = 0;
-    while (n > 0)
-    {
-        rev = rev*10 + n%10;
-        n/=10;
-    }
-    printf ("rev = %d", rev);
-    if (rev == m)
-        return 1;
-    else
-        return 0;
-}
-
-/*Fibonacci recursion*/
+/*Fibonacci recursively*/
 
 int Fibonacci (int num)
 {
@@ -122,7 +105,9 @@ int Fibonacci (int num)
 
 /* Fibonacci iteratively*/
 
-int Fibon (int *ar, int count)
+/* count is the desired number of terms of the series */
+
+int Fibo (int *ar, int count)
 {
   
     if (count == 0){
@@ -145,42 +130,6 @@ int Fibon (int *ar, int count)
         }
         return;
     }
-
-    /*    
-    int *a; 
-    int c;
-    scanf ("%d", &c);
-    a = (int*) malloc (c * sizeof(int));
-    Fibonacci(a, c);
-    for (int i=0; i<c; i++){
-        printf("%d, ", a[i]);
-    }
-    free(a);
-    return 0;
-    */
-/*  
-    int p = 0, q = 1, ans;
-    if (n == 0)
-        return 0;
-    else if (n == 1)
-        return 1;
-    else
-    {
-        for(int i = 2; i<= n; i++)
-        {
-            ans = p+q;
-            p = q;
-            q = ans;
-        }
-        return ans;
-    }
-*/
-
-/*
-    int n;
-    n = Fibon(4);
-    printf("last term = %d", n);
-*/
 }
 
 /********************************************************************/
@@ -189,9 +138,9 @@ int Fibon (int *ar, int count)
 
 int Factorial (int num)
 {
-    if(num == 1)
+    if(num == 0)
         return 1;
-    else if (num ==0)
+    else if (num == 1)
         return 1;
     else
         return (num*Factorial(num-1));
@@ -219,22 +168,9 @@ int Fact (int n)
 
 }
 
-/*******************************************************************/
-
-/*Reverse a string*/
-
-char* strrev (char* s, int size)
-{
-    char* ans = s;
-    for (int i=0; i<size; i++)
-    {
-        ans[size-1-i] = s[i];
-    }
-    return ans;
-}
 /**********************************************************************/
 
-/* Reverse a string w/o creating a new one*/
+/* Reverse a string */
 
 void revstr (char* s, int len)
 {
@@ -264,27 +200,14 @@ int FirstDup (int* a, int l)
         }
     }
     return -1;
-    /*
-    inside main:
-
-    printf("Enter size\n");
-    scanf("%d", &size);
-    printf("Enter elements\n");
-    for (int i=0; i<size; i++)
-    {
-        scanf("%d", &ar[i]);
-    }
-    
-    */
 }
 
 /********************************************************************/
 
 /* Remove consecutive characters of a string */
 
-char* RmvChar (char* s, int l)
+void RmvChar (const char *s, char *ans, int l)
 {
-    char* ans;
     for(int i=0; i<l; i=i+2)
     {
         ans[i/2] = s[i];
@@ -317,7 +240,7 @@ void bubsort (int* nums, int n)
 
 /* BitMnpl: check whether ith bit set or not */
 
-// #define MASK(i) (1U << i)                                           // works, obviously --> global regardless of local/global --> don't follow usual scope rules of C
+#define MASK(i) (1U << i)                                          
 
 int isBitSet (int n, int i)
 {
