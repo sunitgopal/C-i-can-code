@@ -48,6 +48,8 @@ int reversedigit(int num)                                       // num = 123
 
 int isPrime(int num)
 {
+    if (num == 2)
+        return 1;
     if (num%2 == 1)
     {
         for(int i=3; i<num; i=i+2)                      // changed i=2 to i=3 // changed i++ to i=i+2
